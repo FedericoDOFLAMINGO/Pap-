@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Para mi papá Fernando</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Libre+Baskerville:ital@0;1&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --cream: #f5f0e8;
+      --ink: #2a1f14;
+      --sepia: #8b6f4e;
+      --gold: #c4954a;
+      --rust: #a0522d;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background-color: #1a1208;
+      font-family: 'Libre Baskerville', serif;
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── BIENVENIDA ── */
+    #welcome {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse at center, #2e1f0e 0%, #0f0a04 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      gap: 2rem;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    #welcome .ornament {
+      font-size: 2.5rem;
+      color: var(--gold);
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.3s;
+      letter-spacing: 0.2em;
+    }
+
+    #welcome h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.2;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.6s;
+    }
+
+    #welcome h1 em { font-style: italic; color: var(--gold); }
+
+    #welcome p {
+      font-size: 1rem;
+      color: #a08060;
+      font-style: italic;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 0.9s;
+    }
+
+    #open-btn {
+      margin-top: 1rem;
+      padding: 1rem 3rem;
+      background: transparent;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.15em;
+      cursor: pointer;
+      opacity: 0;
+      animation: fadeUp 1s ease forwards 1.3s;
+      transition: background 0.3s, color 0.3s;
+      text-transform: uppercase;
+    }
+
+    #open-btn:hover { background: var(--gold); color: #1a1208; }
+
+    /* ── CARTA ── */
+    #letter {
+      display: none;
+      width: 100%;
+      max-width: 780px;
+      padding: 3rem 1.5rem 6rem;
+    }
+
+    .letter-wrap {
+      background: var(--cream);
+      padding: 4rem 4rem 5rem;
+      position: relative;
+      box-shadow:
+        0 0 0 1px #c4954a33,
+        0 20px 80px #00000088,
+        inset 0 0 60px #e8d8c010;
+    }
+
+    .letter-wrap::before,
+    .letter-wrap::after {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      border-color: var(--gold);
+      border-style: solid;
+      opacity: 0.5;
+    }
+    .letter-wrap::before { top: 18px; left: 18px; border-width: 1px 0 0 1px; }
+    .letter-wrap::after  { bottom: 18px; right: 18px; border-width: 0 1px 1px 0; }
+
+    .letter-header {
+      text-align: center;
+      margin-bottom: 3rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid #c4954a44;
+    }
+
+    .letter-header .date {
+      font-size: 0.8rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sepia);
+      margin-bottom: 1.5rem;
+    }
+
+    .letter-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 300;
+      font-style: italic;
+      color: var(--ink);
+      line-height: 1.2;
+    }
+
+    .letter-header h2 span { color: var(--rust); }
+
+    .divider {
+      text-align: center;
+      color: var(--gold);
+      font-size: 1.2rem;
+      letter-spacing: 0.4em;
+      margin: 2.5rem 0;
+      opacity: 0.6;
+    }
+
+    p.body-text {
+      font-size: 1.05rem;
+      line-height: 1.95;
+      color: #3a2a1a;
+      margin-bottom: 1.5rem;
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    p.body-text:first-letter {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.2rem;
+      float: left;
+      line-height: 0.75;
+      padding-right: 0.12em;
+      padding-top: 0.1em;
+      color: var(--rust);
+      font-weight: 600;
+    }
+
+    /* ── FOTOS ── */
+    .photo-slot {
+      margin: 2.5rem 0;
+    }
+
+    .photo-slot img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      object-fit: cover;
+      display: block;
+      border: 1px solid #c4954a55;
+    }
+
+    .photo-caption {
+      text-align: center;
+      font-style: italic;
+      font-size: 0.82rem;
+      color: var(--sepia);
+      margin-top: 0.6rem;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FIRMA ── */
+    .signature {
+      margin-top: 3.5rem;
+      text-align: right;
+      border-top: 1px solid #c4954a44;
+      padding-top: 2rem;
+    }
+
+    .signature p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--sepia);
+      font-style: italic;
+    }
+
+    .signature .name {
+      font-size: 2rem;
+      color: var(--rust);
+      font-weight: 600;
+      margin-top: 0.3rem;
+      display: block;
+    }
+
+    /* ── REPRODUCTOR ── */
+    #player {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: rgba(20, 12, 4, 0.92);
+      border: 1px solid var(--gold);
+      border-radius: 2px;
+      padding: 0.8rem 1.2rem;
+      display: none;
+      align-items: center;
+      gap: 0.8rem;
+      z-index: 50;
+      backdrop-filter: blur(6px);
+      min-width: 220px;
+    }
+
+    #player button {
+      background: none;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      flex-shrink: 0;
+    }
+
+    #player button:hover { background: var(--gold); color: #1a1208; }
+
+    #player .track-info { display: flex; flex-direction: column; }
+
+    #player .track-name {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--cream);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    #player .track-sub {
+      font-size: 0.7rem;
+      color: #806040;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    #player .progress-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 2px;
+      background: var(--gold);
+      width: 0%;
+      transition: width 0.5s linear;
+      opacity: 0.5;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .letter-wrap { padding: 2.5rem 1.8rem 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- BIENVENIDA -->
+<div id="welcome">
+  <div class="ornament">✦ &nbsp; ✦ &nbsp; ✦</div>
+  <h1>Para ti,<br/><em>papá Fernando</em></h1>
+  <p>Una carta del corazón, en tu día</p>
+  <button id="open-btn" onclick="abrirCarta()">Abrir carta</button>
+</div>
+
+<!-- CARTA -->
+<div id="letter">
+  <div class="letter-wrap">
+
+    <div class="letter-header">
+      <div class="date">Día del Padre · 2025</div>
+      <h2>Para mi papá,<br/><span>Fernando</span></h2>
+    </div>
+
+    <p class="body-text">
+      Papá, hay cosas que el tiempo y la distancia no logran borrar, y una de ellas es el amor que siento por ti. Sé que hubo muchos momentos en los que no pudiste estar, momentos que quizás tú mismo lamentaste más que nadie. Y aunque esos silencios a veces dolieron, nunca te dejé de ver como lo que eres: mi padre.
+    </p>
+
+    <!-- FOTO 1 -->
+    <div class="photo-slot">
+      <img src="foto1.jpg" alt="Foto 1"/>
+      <p class="photo-caption">Un momento que guardo en el corazón</p>
+    </div>
+
+    <div class="divider">✦</div>
+
+    <p class="body-text">
+      Yo sé que en el fondo siempre quisiste estar. Que hay cosas de la vida que a veces nos superan, que las circunstancias no siempre son lo que uno quisiera. Y también sé que eso te pesa. Pero quiero que sepas algo que llevo mucho tiempo queriendo decirte: no necesito que hayas estado en cada momento para saber quién eres para mí. Tú eres mi papá, y eso no cambia, no lo cambia nada ni nadie.
+    </p>
+
+    <!-- FOTO 2 -->
+    <div class="photo-slot">
+      <img src="foto2.jpg" alt="Foto 2"/>
+      <p class="photo-caption">Porque los mejores momentos merecen recordarse</p>
+    </div>
+
+    <div class="divider">✦</div>
+
+    <p class="body-text">
+      Mi amor por ti es incondicional. No depende de lo que digan los demás, no depende de lo que haya pasado o dejado de pasar. Puede que el mundo tenga su opinión, que haya voces que hablen de ti sin conocerte de verdad, pero yo sí te conozco. Sé que eres fuerte. Sé que detrás de cada silencio hubo un hombre que cargó cosas que quizás nunca le tocaba cargar solo.
+    </p>
+
+    <!-- FOTO 3 -->
+    <div class="photo-slot">
+      <img src="foto3.jpg" alt="Foto 3"/>
+      <p class="photo-caption">Tú, que eres lo más parecido a mi valentía</p>
+    </div>
+
+    <div class="divider">✦</div>
+
+    <p class="body-text">
+      Digan lo que digan, para mí eres el mejor. Y eso no lo digo porque sí, lo digo porque te he visto de pie cuando otros se hubieran caído. Lo digo porque llevas mi nombre y yo llevo el tuyo, y eso me llena de orgullo. Quiero que sepas que siempre podrás contar conmigo, así como yo sé que, cuando más lo necesite, tú estarás.
+    </p>
+
+    <p class="body-text">
+      Feliz día del padre, papá. Gracias por existir, por ser quien eres, y por ser mío.
+    </p>
+
+    <div class="signature">
+      <p>Con todo mi amor,</p>
+      <span class="name">Fernando</span>
+    </div>
+
+  </div>
+</div>
+
+<!-- REPRODUCTOR -->
+<div id="player">
+  <button id="play-btn" onclick="togglePlay()">▶</button>
+  <div class="track-info">
+    <span class="track-name">dad.mp3</span>
+    <span class="track-sub">Para papá ♪</span>
+  </div>
+  <div class="progress-bar" id="progress-bar"></div>
+</div>
+
+<audio id="audio" src="dad.mp3" loop></audio>
+
+<script>
+  function abrirCarta() {
+    document.getElementById('welcome').style.display = 'none';
+    document.getElementById('letter').style.display = 'block';
+    document.getElementById('player').style.display = 'flex';
+
+    const audio = document.getElementById('audio');
+    audio.play().catch(() => {});
+    document.getElementById('play-btn').textContent = '⏸';
+
+    audio.addEventListener('timeupdate', () => {
+      if (audio.duration) {
+        const pct = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progress-bar').style.width = pct + '%';
+      }
+    });
+  }
+
+  function togglePlay() {
+    const audio = document.getElementById('audio');
+    const btn = document.getElementById('play-btn');
+    if (audio.paused) { audio.play(); btn.textContent = '⏸'; }
+    else              { audio.pause(); btn.textContent = '▶'; }
+  }
+</script>
+</body>
+</html>
